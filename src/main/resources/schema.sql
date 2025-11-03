@@ -1,0 +1,41 @@
+DROP TABLE IF EXISTS TICKETS;
+DROP TABLE IF EXISTS PATIENTS;
+DROP TABLE IF EXISTS COLORS;
+DROP TABLE IF EXISTS NOUNS;
+
+CREATE TABLE COLORS (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE NOUNS (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE PATIENTS (
+    id VARCHAR(50) PRIMARY KEY,
+    first_name VARCHAR(255) NOT NULL,
+    last_name VARCHAR(255) NOT NULL,
+    street VARCHAR(255),
+    city VARCHAR(255),
+    zip VARCHAR(20),
+    state VARCHAR(100)
+);
+
+CREATE TABLE TICKETS (
+    id CHAR(36) PRIMARY KEY,
+    patient_id VARCHAR(50),
+    priority VARCHAR(50),
+    color VARCHAR(255),
+    noun VARCHAR(255),
+    color_code VARCHAR(255),
+    risk_of_fall BOOLEAN,
+    breathing_difficulty BOOLEAN,
+    severe_pain BOOLEAN,
+    bleeding BOOLEAN,
+    unconscious BOOLEAN,
+    created_at TIMESTAMP,
+    status VARCHAR(50),
+    CONSTRAINT fk_patient FOREIGN KEY (patient_id) REFERENCES PATIENTS(id)
+);
