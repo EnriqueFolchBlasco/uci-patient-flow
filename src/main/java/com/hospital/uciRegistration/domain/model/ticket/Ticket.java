@@ -1,7 +1,6 @@
 package com.hospital.uciRegistration.domain.model.ticket;
 
 import com.hospital.uciRegistration.domain.model.patient.Patient;
-import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
