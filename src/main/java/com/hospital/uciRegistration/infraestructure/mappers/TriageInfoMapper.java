@@ -1,12 +1,12 @@
 package com.hospital.uciRegistration.infraestructure.mappers;
 
 import com.hospital.uciRegistration.domain.model.ticket.TriageInfo;
-import org.springframework.stereotype.Component;
+import org.mapstruct.Mapper;
 
-@Component
-public class TriageInfoMapper {
+@Mapper(componentModel = "spring")
+public interface TriageInfoMapper {
 
-    public TriageInfo fromEntityFields(
+    default TriageInfo fromEntityFields(
             boolean riskOfFall,
             boolean breathingDifficulty,
             boolean severePain,
@@ -16,11 +16,8 @@ public class TriageInfoMapper {
         return new TriageInfo(riskOfFall, breathingDifficulty, severePain, bleeding, unconscious);
     }
 
-    public boolean[] toEntityFields(TriageInfo triageInfo) {
-
-        if (triageInfo == null) {
-          return new boolean[5];
-        }
+    default boolean[] toEntityFields(TriageInfo triageInfo) {
+        if (triageInfo == null) return new boolean[5];
 
         return new boolean[]{
                 triageInfo.isRiskOfFall(),

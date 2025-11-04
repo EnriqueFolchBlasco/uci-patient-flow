@@ -2,28 +2,12 @@ package com.hospital.uciRegistration.infraestructure.mappers;
 
 import com.hospital.uciRegistration.domain.model.patient.Address;
 import com.hospital.uciRegistration.infraestructure.entity.AddressEmbeddable;
-import org.springframework.stereotype.Component;
+import org.mapstruct.Mapper;
 
-@Component
-public class AddressMapper {
+@Mapper(componentModel = "spring")
+public interface AddressMapper {
 
-    public AddressEmbeddable toAddressEmbeddable(Address address) {
-        if (address == null) return null;
-        return new AddressEmbeddable(
-                address.getStreet(),
-                address.getCity(),
-                address.getZip(),
-                address.getState()
-        );
-    }
+    AddressEmbeddable toAddressEmbeddable(Address address);
 
-    public Address fromAddressEmbeddable(AddressEmbeddable embeddable) {
-        if (embeddable == null) return null;
-        return new Address(
-                embeddable.getStreet(),
-                embeddable.getCity(),
-                embeddable.getZip(),
-                embeddable.getState()
-        );
-    }
+    Address fromAddressEmbeddable(AddressEmbeddable embeddable);
 }

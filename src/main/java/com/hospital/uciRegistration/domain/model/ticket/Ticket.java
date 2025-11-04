@@ -1,15 +1,21 @@
 package com.hospital.uciRegistration.domain.model.ticket;
 
 import com.hospital.uciRegistration.domain.model.patient.Patient;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 import org.jmolecules.ddd.annotation.AggregateRoot;
 import org.springframework.util.Assert;
 
+import java.beans.ConstructorProperties;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+@NoArgsConstructor(force = true)
 @AggregateRoot
 @Getter
+@Setter
 public class Ticket {
 
     private final UUID id;
@@ -30,17 +36,18 @@ public class Ticket {
         this.status = TicketStatus.WAITING;
     }
 
+    @ConstructorProperties({"id", "patient", "priority", "colorCode", "triageInfo", "createdAt", "status"})
     public Ticket(UUID id,
                   Patient patient,
                   PriorityType priority,
-                  ColorCode code,
+                  ColorCode colorCode,
                   TriageInfo triageInfo,
                   LocalDateTime createdAt,
                   TicketStatus status) {
         this.id = id;
         this.patient = patient;
         this.priority = priority;
-        this.colorCode = code;
+        this.colorCode = colorCode;
         this.triageInfo = triageInfo;
         this.createdAt = createdAt;
         this.status = status;
