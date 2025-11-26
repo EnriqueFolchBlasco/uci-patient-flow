@@ -57,14 +57,38 @@ public class Ticket {
     public void changeTriageInfo(TriageInfo newTriageInfo) { this.triageInfo = newTriageInfo; }
 
     private void changeStatus(TicketStatus newStatus) {
+
         if (this.status == TicketStatus.COMPLETED) {
             throw new IllegalStateException("Cannot change status of a completed ticket");
         }
-        if (newStatus == TicketStatus.IN_PROGRESS && this.status != TicketStatus.WAITING) {
-            throw new IllegalStateException("Ticket must be waiting to start progress");
+
+        if (this.status == TicketStatus.CANCELLED) {
+            throw new IllegalStateException("Cannot change status of a cancelled ticket");
         }
-        this.status = newStatus;
+
+        switch (this.status) {
+
+            case WAITING:
+                if (newStatus == TicketStatus.IN_PROGRESS || newStatus == TicketStatus.CANCELLED) {
+                    this.status = newStatus;
+                } else {
+                    throw new IllegalStateException("Waiting tickets can only move to IN_PROGRESS or CANCELLED");
+                }
+                break;
+
+            case IN_PROGRESS:
+                if (newStatus == TicketStatus.COMPLETED || newStatus == TicketStatus.CANCELLED) {
+                    this.status = newStatus;
+                } else {
+                    throw new IllegalStateException("In-progress tickets can only move to COMPLETED or CANCELLED");
+                }
+                break;
+
+            default:
+                throw new IllegalStateException("Unsupported ticket status transition");
+        }
     }
+
 
     public boolean isWaiting() {
         return status == TicketStatus.WAITING;

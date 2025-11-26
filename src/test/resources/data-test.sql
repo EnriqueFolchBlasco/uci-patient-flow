@@ -72,3 +72,30 @@ INSERT INTO NOUNS (name) VALUES ('Pearl');
 INSERT INTO NOUNS (name) VALUES ('Gemstone');
 INSERT INTO NOUNS (name) VALUES ('Volcano');
 INSERT INTO NOUNS (name) VALUES ('Compass');
+
+-- PATIENTS
+INSERT INTO PATIENTS (id, first_name, last_name, street, city, zip, state) VALUES
+('P001', 'John', 'Doe', '123 Main St', 'Springfield', '12345', 'IL'),
+('P002', 'Jane', 'Smith', '456 Oak Ave', 'Metropolis', '67890', 'NY'),
+('P003', 'Alice', 'Johnson', '789 Pine Rd', 'Gotham', '11223', 'CA');
+
+-- TICKETS
+INSERT INTO TICKETS (
+    id,
+    patient_id,
+    priority,
+    color,
+    noun,
+    color_code,
+    risk_of_fall,
+    breathing_difficulty,
+    severe_pain,
+    bleeding,
+    unconscious,
+    created_at,
+    status
+) VALUES
+('11111111-1111-1111-1111-111111111111', 'P001', 'HIGH', 'Red', 'Lion', '#FF0000', TRUE, FALSE, TRUE, FALSE, FALSE, CURRENT_TIMESTAMP, 'OPEN'),
+('22222222-2222-2222-2222-222222222222', 'P002', 'MEDIUM', 'Blue', 'Wolf', '#0000FF', FALSE, FALSE, FALSE, FALSE, FALSE, CURRENT_TIMESTAMP, 'IN_PROGRESS'),
+('33333333-3333-3333-3333-333333333333', 'P003', 'LOW', 'Green', 'Eagle', '#00FF00', FALSE, FALSE, FALSE, FALSE, FALSE, CURRENT_TIMESTAMP, 'CLOSED');
+

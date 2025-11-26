@@ -8,6 +8,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 public class AttendNextTicketUseCase {
 
@@ -20,7 +22,7 @@ public class AttendNextTicketUseCase {
 
     @Transactional
     public Ticket execute() {
-        var queue = ticketRepository.findWaitingTicketsOrdered();
+        List<Ticket> queue = ticketRepository.findWaitingTicketsOrdered();
 
         if (queue.isEmpty()) {
             throw new NoTicketsWaitingException("No tickets waiting");

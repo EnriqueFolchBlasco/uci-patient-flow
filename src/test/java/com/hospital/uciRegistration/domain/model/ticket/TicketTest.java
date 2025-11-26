@@ -12,11 +12,11 @@ public class TicketTest {
 
     private final UUID id = UUID.randomUUID();
     private final Patient patient  = new Patient();
-    private PriorityType priority = PriorityType.EMERGENCY;
+    private final PriorityType priority = PriorityType.EMERGENCY;
     private final ColorCode colorCode = new ColorCode("Green", "Car");
-    private TriageInfo triageInfo = new TriageInfo(true, true, true, true, true);
+    private final TriageInfo triageInfo = new TriageInfo(true, true, true, true, true);
     private final LocalDateTime createdAt = LocalDateTime.now();
-    private TicketStatus status = TicketStatus.WAITING;
+    private final TicketStatus status = TicketStatus.WAITING;
 
     @Test
     void should_throwIllegalArgumentException_when_patient_is_null() {
@@ -67,13 +67,20 @@ public class TicketTest {
     }
 
     @Test
+    void should_markAsCancelledAfterInProgress() {
+        var ticket = Ticket.createTicket(patient, triageInfo, colorCode);
+        ticket.markInProgress();
+        ticket.markAsCancelled();
+        assertEquals(TicketStatus.CANCELLED, ticket.getStatus());
+    }
+
+    @Test
     void should_notAllowStatusChange_afterCompleted() {
         var ticket = Ticket.createTicket(patient, triageInfo, colorCode);
         ticket.markInProgress();
         ticket.markAsComplete();
         assertThrows(IllegalStateException.class, ticket::markInProgress);
     }
-
 
     @Test
     void should_changeTriageInfo() {

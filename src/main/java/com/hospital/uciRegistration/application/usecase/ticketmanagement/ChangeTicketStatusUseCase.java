@@ -1,5 +1,6 @@
 package com.hospital.uciRegistration.application.usecase.ticketmanagement;
 
+import com.hospital.uciRegistration.common.exception.PatientNotFoundException;
 import com.hospital.uciRegistration.domain.model.patient.Patient;
 import com.hospital.uciRegistration.domain.model.ticket.Ticket;
 import com.hospital.uciRegistration.domain.model.ticket.TicketStatus;
@@ -24,6 +25,10 @@ public class ChangeTicketStatusUseCase {
 
     @Transactional
     public void execute(String id, String newTicketStatusString) {
+
+        if (!patientRepository.existsById(id)) {
+            throw new PatientNotFoundException(id);
+        }
 
         TicketStatus newTicketStatus;
 
