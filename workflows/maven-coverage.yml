@@ -1,0 +1,61 @@
+name: Java CI with Coverage
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout repo
+      - uses: actions/checkout@v3
+
+      # Step 2: Set up JDK 17
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: temurin
+          java-version: 17
+
+      # Step 3: Cache Maven dependencies
+      - name: Cache Maven packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+
+      # Step 4: Build and test with coverage
+      - name: Build & Test with Coverage
+        run: mvn clean verify
+
+      # Step 5: Upload coverage report
+      - name: Upload JaCoCo Report
+        uses: actions/upload-artifact@v3
+        with:
+          name: jacoco-report
+          path: target/site/jacoco
+
+      # Step 6: Comment coverage on PR (optional)
+      - name: Comment Coverage on PR
+        if: github.event_name == 'pull_request'
+        uses: paambaati/codeclimate-action@v3.0.2
+        with:
+          coverageCommand: "mvn jacoco:report"
+          coverageLocations: "target/site/jacoco/jacoco.xml"
+
+        # Step 7: Run the Spring Boot application
+      - name: Start Spring Boot App
+        run: mvn spring-boot:run &
+      
+      # Step 8: Wait a few seconds and check if it started
+      - name: Smoke Test
+        run: |
+          sleep 10
+          curl -f http://localhost:8080/actuator/health
+
